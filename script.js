@@ -1,1 +1,2 @@
-let gameBoard = [""]
+let gameBoard = ["","","","","","","","",""]
+console.log(gameBoard);
