@@ -28,6 +28,17 @@
                     return gameBoard[a];
                 }
             }
+
+            let isDraw = true;
+            for(let i = 0; i < gameBoard.length; i++){
+                if(gameBoard[i] === null){
+                    isDraw = false;
+                    break;
+                }
+            }
+            if(isDraw === true){
+                return "It is a Tie"
+            }
         }
     }
 
