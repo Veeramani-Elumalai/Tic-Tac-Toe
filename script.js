@@ -1,4 +1,5 @@
 const gameBoard = Array(9).fill(null);
+let currentPlayer = "X";
 
 function ticTacToe() {
   const winningPatterns = [
@@ -6,8 +7,6 @@ function ticTacToe() {
     [0,3,6], [1,4,7], [2,5,8],
     [2,4,6], [0,4,8]
   ];
-
-  let currentPlayer = "X"; // X starts
 
   function printBoard() {
     console.log(`
