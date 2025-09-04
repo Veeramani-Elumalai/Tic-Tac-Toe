@@ -2,6 +2,7 @@
 
     function ticTacToe(){
         const winningPatterns = [[0,1,2], [3,4,5], [6,7,8], [0,3,6], [1,4,7], [2,5,8], [6,4,2], [0,4,8]];
+        let currentPlayer = "X";
 
         function printBoard(){
 
@@ -39,7 +40,40 @@
             if(isDraw === true){
                 return "It is a Tie"
             }
+            return null;
         }
+
+        function makeMove(position){
+            if(typeof position !== "number" || position < 0 || position > 8){
+                console.log("Enter a valid position between 0-8 :");
+                return;
+            }
+
+            if(gameBoard[position]!== null){
+                console.log("Index was occupied........");
+                return;
+            }
+
+            gameBoard[position] = currentPlayer;
+            printBoard();
+
+            let result = checkWinner();
+            if(result === 'X' || result === 'O'){
+                console.log(`GameOver! Winner is ${result}`);
+                return;
+            } else if(result === "It is a Tie"){
+                console.log("It's a tie")
+                return;
+            }
+        }
+
+        if (currentPlayer === "X") {
+            currentPlayer = "O";
+        } else {
+            currentPlayer = "X";
+        }
+        console.log("Next turn: Player " + currentPlayer);
+        window.makeMove = makeMove;
     }
 
     ticTacToe();
