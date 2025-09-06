@@ -1,6 +1,11 @@
 const gameBoard = Array(9).fill(null);
 let currentPlayer = "X";
 
+document.addEventListener('DOMContentLoaded', () => {
+  const dialog = document.querySelector('#dialogContainer');
+  dialog.showModal();
+});
+
 function ticTacToe() {
   const cells = document.querySelectorAll('.cell');
   const statusDisplay = document.querySelector('.result');

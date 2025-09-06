@@ -22,8 +22,21 @@
     </div>
     <div class="result"></div>
     <div class="resetContainer">
-        <button id="resetBtn">Reset</button>
+        <button class="gameBtn">Reset</button>
     </div>
-    
+
+    <dialog id="dialogContainer">
+        <form method="dialog">
+            <div>
+                <label for="playerX">Player X :</label>
+                <input type="text" id="playerX">
+            </div>
+            <div>
+                <label for="playerO">Player O :</label>
+                <input type="text" id="playerO">
+            </div>
+            <button class="gameBtn" type="submit">Start</button>
+        </form>
+    </dialog>
 </body>
 </html>
