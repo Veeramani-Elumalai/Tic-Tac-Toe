@@ -1,10 +1,25 @@
-const gameBoard = Array(9).fill(null);
+let gameBoard = Array(9).fill(null);
 let currentPlayer = "X";
+let scoreX = 0;
+let scoreO = 0;
 
 document.addEventListener('DOMContentLoaded', () => {
   const dialog = document.querySelector('#dialogContainer');
   dialog.showModal();
 });
+
+function displayPlayers() {
+  updateScoreCard();
+  document.querySelector('#dialogContainer').close();
+}
+
+function updateScoreCard() {
+  const playerX = document.querySelector('#playerX').value || "Player X";
+  const playerO = document.querySelector('#playerO').value || "Player O";
+
+  document.querySelector('#X').textContent = `${playerX} is X : ${scoreX}`;
+  document.querySelector('#O').textContent = `${playerO} is O : ${scoreO}`;
+}
 
 function ticTacToe() {
   const cells = document.querySelectorAll('.cell');
@@ -15,7 +30,6 @@ function ticTacToe() {
     [0,3,6], [1,4,7], [2,5,8],
     [0,4,8], [2,4,6]
   ];
-
 
   function checkWinner() {
     for (const [a, b, c] of winningPatterns) {
@@ -29,7 +43,6 @@ function ticTacToe() {
     return null;
   }
 
-
   function makeMove(position) {
     if (gameBoard[position] !== null) {
       statusDisplay.textContent = "That spot is already filled.";
@@ -42,14 +55,29 @@ function ticTacToe() {
     const result = checkWinner();
 
     if (result) {
-      if (result.winner === "X" || result.winner === "O") {
-        statusDisplay.textContent = `Game Over! Winner is ${result.winner}`;
+      if (result.winner === "X") {
+        scoreX++;
+        updateScoreCard();
+        statusDisplay.textContent = `Round Winner: ${result.winner}`;
+        result.pattern.forEach(i => cells[i].style.backgroundColor = "lightgreen");
+      } else if (result.winner === "O") {
+        scoreO++;
+        updateScoreCard();
+        statusDisplay.textContent = `Round Winner: ${result.winner}`;
         result.pattern.forEach(i => cells[i].style.backgroundColor = "lightgreen");
       } else if (result.winner === "Tie") {
-        statusDisplay.textContent = "Game Over! It's a tie.";
+        statusDisplay.textContent = "It's a tie!";
       }
 
-      cells.forEach(c => c.removeEventListener("click", handleClick));
+      // Best of 3 → first to 2 wins
+      if (scoreX === 2 || scoreO === 2) {
+        const finalWinner = scoreX === 2 ? "X" : "O";
+        statusDisplay.textContent = `🏆 Final Winner is Player ${finalWinner}!`;
+        cells.forEach(c => c.removeEventListener("click", handleClick));
+      } else {
+        // prepare for next round
+        setTimeout(resetBoard, 1500); // auto reset board after 1.5s
+      }
       return;
     }
 
@@ -62,24 +90,33 @@ function ticTacToe() {
     makeMove(position);
   }
 
-  function resetGame() {
-    for (let i = 0; i < gameBoard.length; i++) gameBoard[i] = null;
+  // clears only the board, keeps scores
+  function resetBoard() {
+    gameBoard = Array(9).fill(null);
     currentPlayer = "X";
     cells.forEach(cell => {
       cell.textContent = "";
       cell.style.backgroundColor = "";
       cell.addEventListener("click", handleClick);
     });
+    statusDisplay.textContent = "New Round! Player X starts.";
+  }
+
+  // full reset (board + scores)
+  function resetGame() {
+    scoreX = 0;
+    scoreO = 0;
+    updateScoreCard();
+    resetBoard();
     statusDisplay.textContent = "Game reset. Player X starts.";
   }
 
   cells.forEach(cell => cell.addEventListener("click", handleClick));
 
-  const reset_btn = document.querySelector('#resetBtn');
-  reset_btn.addEventListener("click",resetGame)
+  const reset_btn = document.querySelector('.resetBtn');
+  if (reset_btn) reset_btn.addEventListener("click", resetGame);
 
-  window.resetGame = resetGame;
-
+  updateScoreCard();
   statusDisplay.textContent = "Player X starts.";
 }
 
