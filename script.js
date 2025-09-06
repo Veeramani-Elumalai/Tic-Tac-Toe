@@ -11,6 +11,7 @@ function ticTacToe() {
     [0,4,8], [2,4,6]
   ];
 
+
   function checkWinner() {
     for (const [a, b, c] of winningPatterns) {
       if (gameBoard[a] && gameBoard[a] === gameBoard[b] && gameBoard[a] === gameBoard[c]) {
@@ -23,18 +24,18 @@ function ticTacToe() {
     return null;
   }
 
+
   function makeMove(position) {
     if (gameBoard[position] !== null) {
       statusDisplay.textContent = "That spot is already filled.";
       return;
     }
 
-    // Place move in array + UI
     gameBoard[position] = currentPlayer;
     cells[position].textContent = currentPlayer;
 
-    // Check winner
     const result = checkWinner();
+
     if (result) {
       if (result.winner === "X" || result.winner === "O") {
         statusDisplay.textContent = `Game Over! Winner is ${result.winner}`;
@@ -42,12 +43,11 @@ function ticTacToe() {
       } else if (result.winner === "Tie") {
         statusDisplay.textContent = "Game Over! It's a tie.";
       }
-      // Stop further clicks only now
+
       cells.forEach(c => c.removeEventListener("click", handleClick));
       return;
     }
 
-    // Switch player
     currentPlayer = currentPlayer === "X" ? "O" : "X";
     statusDisplay.textContent = "Next turn: Player " + currentPlayer;
   }
@@ -68,10 +68,11 @@ function ticTacToe() {
     statusDisplay.textContent = "Game reset. Player X starts.";
   }
 
-  // Attach listeners at start
   cells.forEach(cell => cell.addEventListener("click", handleClick));
 
-  // Expose resetGame
+  const reset_btn = document.querySelector('#resetBtn');
+  reset_btn.addEventListener("click",resetGame)
+
   window.resetGame = resetGame;
 
   statusDisplay.textContent = "Player X starts.";

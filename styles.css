@@ -30,5 +30,30 @@ h1{
 }
 
 .cell{
+    display: flex;
+    justify-content: center;
+    align-items: center;
     border: 1px solid rgb(219, 182, 133);
+    font-size: 30px;
+}
+
+.result{
+    font-size: 20px;
+    font-weight: bolder;
+    text-align: center;
+}
+
+#resetBtn{
+    background-color: rgb(255, 123, 0);
+    color: rgb(255, 235, 205);
+    padding: 10px;
+    border-radius: 10px;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.resetContainer{
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
 }
